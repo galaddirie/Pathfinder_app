@@ -3,19 +3,22 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import pathfinder
-from pathfinder.algorithms.dijkstra import Graph, PrioritizedItems
+from pathfinder.algorithms.dijkstra import Graph, PrioritizedItem
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 import sys
 
+
+@csrf_exempt
 def home(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     
    
-    result = request.GET.get('result',None)
+    result = request.POST.get('result',None)
 
     print(sys.getsizeof(result))
-    start= request.GET.get('start',None)
-    end = request.GET.get('end',None)
+    start= request.POST.get('start',None)
+    end = request.POST.get('end',None)
     if is_ajax:
         #data from dijkstra goes here
         start = start.split(',')
