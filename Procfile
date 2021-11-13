@@ -1,0 +1,1 @@
+web: gunicorn Pathfinder_app.wsgi
