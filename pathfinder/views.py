@@ -4,9 +4,11 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import pathfinder
 from pathfinder.algorithms.dijkstra import Graph, PrioritizedItem
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 import sys
 
+@csrf_exempt
 def home(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     

@@ -301,7 +301,7 @@ function onWallRemove(event){
 }
 function ajaxHelper(gridData,start,end){
     $.ajax({
-        type: "GET",
+        type: "POST",
         // we could process grid data and only send information of grid size and location of wall nodes and end points
         // it is redudant to send nodes with no data 
         // since all nodes store their location data we can pass an array of none empty nodes
