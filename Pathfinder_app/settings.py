@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('PATHFINDER_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('PATHFINDER_DEBUG')
 
-ALLOWED_HOSTS = ['galadpathfinderapp.herokuapp.com']
+ALLOWED_HOSTS = ['galadpathfinderapp.herokuapp.com', '*']
 
 
 # Application definition
