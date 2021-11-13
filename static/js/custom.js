@@ -354,11 +354,11 @@ function recursiveDivision() {
     // SPAMMING BUTTON CREATES ISSUE SINCE BUTTONS DONT DISABLE
     width = grid[1].length
     height = grid.length
-    console.log(width,height)
+    //console.log(width,height)
 
     addOuterWalls(width,height);
     var ent= start
-    console.log(width,height)
+    //console.log(width,height)
     addInnerWalls(true, 1, width - 2, 1, height - 2, ent);
 }
 
@@ -567,7 +567,7 @@ function mouseEventHelper(node) {
     }
 
     if (node.classList.contains('path-node') && (node.classList.contains('wall-node'))){
-        console.log('CLEAR PATHS')
+        //console.log('CLEAR PATHS')
         clearPaths()
     }
 }
