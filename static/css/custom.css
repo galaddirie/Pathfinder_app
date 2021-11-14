@@ -32,6 +32,37 @@ h3 {
   
   font-size: 1.3em;
 }
+.loader-container{
+  position: absolute;
+  
+  width: 1002px;
+  height: 500px;
+  
+  background-color: rgba(0, 0, 0, 0.726);
+}
+.loader {
+  position: relative;
+  left: 50%;
+  top: 45%;
+  border: 5px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 5px solid var(--pink);
+  width: 50px;
+  height: 50px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
 
 .top-buffer{
     margin-top: 50px;
@@ -58,7 +89,7 @@ h3 {
   
   background-color:rgb(228, 228, 228);
   padding: 15px;
-  width: fit-content;
+  width: 350px;
   height: 500px;  
      
     
@@ -106,7 +137,10 @@ h3 {
 .maze-select{
   font-size: .9em;
 }
-
+.small-select-text{
+  font-size: .8em;
+  height: 38px;
+}
 /*MENU ADD WALL SLIDER*/
 .draw-btn{
   margin: 5px;
@@ -191,7 +225,7 @@ h3 {
 
 .visited-node{
     background-color: rgb(255, 255, 255);
-    /* -webkit-animation: color-fade 1s; */
+    -webkit-animation: color-fade 1s;
     animation: color-fade 1s;
 
 }
@@ -219,9 +253,20 @@ h3 {
   background-color: gold; 
 
   animation: color-fade-path .5s;
+  -webkit-animation: color-fade-path .5s;
 }
 
 @keyframes color-fade-path {
+  0% {
+    background: orangered;
+  }
+  
+  100% {
+    background: gold
+  }
+}
+
+@-webkit-keyframes color-fade-path {
   0% {
     background: orangered;
   }
@@ -290,6 +335,10 @@ h3 {
     height: 15px;
   }
   #grid{
+    width: 752px;
+    height: 377px;
+  }
+  .loader-container{
     width: 752px;
     height: 377px;
   }

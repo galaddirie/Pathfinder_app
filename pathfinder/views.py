@@ -4,16 +4,16 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 import pathfinder
 from pathfinder.algorithms.dijkstra import Graph, PrioritizedItem
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_exempt, csrf_protect,ensure_csrf_cookie
 # Create your views here.
 import sys
 
 
-@csrf_exempt
+@ensure_csrf_cookie
 def home(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
-    
-   
+    request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
+    print(request_csrf_token)
     result = request.POST.get('result',None)
 
     print(sys.getsizeof(result))

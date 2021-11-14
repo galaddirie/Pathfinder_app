@@ -1,8 +1,8 @@
 let container = document.getElementById('grid');
 var mousedown = false
-let grid = []
-let gridWidth= 50
-let gridHeight= 25
+let grid = [],
+gridWidth= 50,
+gridHeight= 25
 let fsm = { // FINATE STATE MACHINE
     addWall: false,
     addPoints: false,
@@ -10,22 +10,24 @@ let fsm = { // FINATE STATE MACHINE
     animating:false,
     animSpeed: 4,
     
-}
+},
 drawType = {
     freeDraw:true,
     lineDraw:false,
     spiralDraw:false,
-}
+};
 
-let elementHold
-let prev
-let start
-let end
+let elementHold,
+prev,
+start,
+end;
 
-let pathList = []
-let wallList = []
+let pathList = [],
+wallList = [];
 
-let tools = document.getElementsByClassName('tools')
+let tools = document.getElementsByClassName('tools'),
+loader = document.getElementById('loader-container'),
+timer;
 listeners()
 
 
@@ -88,10 +90,10 @@ function generateMaze(){
             clearBoard()
             recursiveDivision()
         }else{
-            mazebtn.innerText = 'SELECT MAZE ALGORITHIM'
+            mazebtn.innerText = 'SELECT MAZE!'
             mazebtn.classList.add('disabled')
             setTimeout(function(){
-                mazebtn.innerText = 'Generate Maze'
+                mazebtn.innerText = 'Start'
                 mazebtn.classList.remove('disabled')
             },1500)
         }
@@ -299,25 +301,59 @@ function onWallRemove(event){
         wallDrawState()
     }
 }
+
+
+
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== "") {
+      const cookies = document.cookie.split(";");
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // Does this cookie string begin with the name we want?
+        if (cookie.substring(0, name.length + 1) === (name + "=")) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
 function ajaxHelper(gridData,start,end){
     $.ajax({
         type: "POST",
-        // we could process grid data and only send information of grid size and location of wall nodes and end points
-        // it is redudant to send nodes with no data 
-        // since all nodes store their location data we can pass an array of none empty nodes
+        
         
         data:{'result': gridData, 'start': start, 'end':end},
         dataType:"json",
+        headers: {
+            "X-Requested-With": "XMLHttpRequest",
+            "X-CSRFToken": getCookie("csrftoken"), 
+        },
+        beforeSend: function () {
+            timer && clearTimeout(timer);
+            timer = setTimeout(function()
+            {
+                loader.hidden = false
+            },
+            1000);
+            
+        },
+
         success: (data) => {
-           // DATA FROM SERVER HERE 
-           // WE WILL CALL visualizer and data handlers here 
+            
            visualizePathfinder(data)
-           //console.log(data['data']);
+           
         },
         error: (error) => {
           console.log(error);
-        }
-      });
+        },
+        complete: function () {
+            clearTimeout(timer); 
+            loader.hidden = true
+        },
+    });
 }
 
 function visualizePathfinder(data){
@@ -574,10 +610,12 @@ function mouseEventHelper(node) {
 
 function mouseEvent(event) {
     if (!fsm.animating && mousedown && !fsm.dragEndpoint) {
-        if (event.path[0].classList.contains('box')) {
-            mouseEventHelper(event.path[0])
-            
+        
+        
+        if (event.target.classList.contains('box')) {
+            mouseEventHelper(event.target)   
         }
+        
     }
 }
 
@@ -610,10 +648,10 @@ function nodeMoveHelper(node) {
 function onMouseOver(event) {
     mouseEvent(event)
     if (mousedown) {
-        if (fsm.dragEndpoint && event.path[0].classList.contains('box')) {
+        if (fsm.dragEndpoint && event.target.classList.contains('box')) {
 
 
-            nodeMoveHelper(event.path[0])
+            nodeMoveHelper(event.target)
             
         }
     }
@@ -621,8 +659,8 @@ function onMouseOver(event) {
 
 function onMouseLeave(event) {
     if (fsm.dragEndpoint) {
-        prev = event.path[0]
-        event.path[0].classList.remove(elementHold)
+        prev = event.target
+        event.target.classList.remove(elementHold)
     }
     //console.log(prev)
 

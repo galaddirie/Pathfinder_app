@@ -29,12 +29,12 @@
         <div class="menu-item text-start ">  
             <h3 class="text-dark">Maze Generator</h3>
             <div>
-                <select class="btn btn-light text-left col-8" name="Maze" id="maze">
+                <select class="btn btn-light text-left col-6 small-select-text"  name="Maze" id="maze">
                     
                     <option class="text-start" value="">Select Maze</option>
                     <option class="text-start" selected="selected" value="recursiveDiv">Recursive Division</option>
                 </select>
-                <button id="mazebtn"class="tools btn viz-btn text-light" onclick="generateMaze()">Start</button>
+                <button id="mazebtn"class="tools btn viz-btn text-light col-5" onclick="generateMaze()">Start</button>
             </div>
         </div>
         <div class="menu-item  clear-functions text-start  ">
@@ -49,9 +49,14 @@
     </div>
     
     <div>
+        
         <div class=" mx-auto grid" id="grid">
-
+            <div hidden id="loader-container" class="loader-container ">
+                <div class="loader"></div>
+            </div>
+            
         </div>
+        
     </div>
 </div>
 
