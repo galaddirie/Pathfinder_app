@@ -303,7 +303,7 @@ function onWallRemove(event){
 }
 
 
-
+// from django documentation
 function getCookie(name) {
     let cookieValue = null;
     if (document.cookie && document.cookie !== "") {
@@ -318,8 +318,8 @@ function getCookie(name) {
       }
     }
     return cookieValue;
-  }
-
+}
+const csrftoken = getCookie('csrftoken');
 function ajaxHelper(gridData,start,end){
     $.ajax({
         type: "POST",
@@ -329,7 +329,7 @@ function ajaxHelper(gridData,start,end){
         dataType:"json",
         headers: {
             "X-Requested-With": "XMLHttpRequest",
-            "X-CSRFToken": getCookie("csrftoken"), 
+            "X-CSRFToken": csrftoken, 
         },
         beforeSend: function () {
             timer && clearTimeout(timer);

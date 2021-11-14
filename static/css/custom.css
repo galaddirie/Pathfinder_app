@@ -285,7 +285,7 @@ h3 {
 
 
 .start-node::after{
-    content: '';
+    content: '<i class="fas fa-play"></i>'; 
     display: flex;
     justify-content: center;
     align-items: center;
@@ -297,7 +297,7 @@ h3 {
 }
 
 .end-node::after{
-    content: '';
+    content: '<i class="fas fa-bullseye"></i>';    
     display: flex;
     justify-content: center;
     align-items: center;
