@@ -337,7 +337,7 @@ function ajaxHelper(gridData,start,end){
             {
                 loader.hidden = false
             },
-            1000);
+            300);
             
         },
 
