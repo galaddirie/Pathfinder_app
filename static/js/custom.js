@@ -8,7 +8,7 @@ let fsm = { // FINATE STATE MACHINE
     addPoints: false,
     dragEndpoint: false,
     animating:false,
-    animSpeed: 4,
+    animSpeed: 2,
     
 },
 drawType = {
@@ -217,7 +217,7 @@ function disableFunctions(){
 function endPointCheck(node){
     // NOTE THIS CHECKS IF ENDPOINT IS BLOCKED ON ALL SIDES AND UNBLOCKS IT IN THE MAZE GENERATION
     //nodeId = node.id.split(',')
-    console.log(node)
+    //console.log(node)
     //up, down, left, right
 
 

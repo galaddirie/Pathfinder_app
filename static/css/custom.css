@@ -276,6 +276,59 @@ h3 {
   }
 }
 
+.visited-node-loop{
+  background-color: rgb(255, 255, 255);
+  -webkit-animation: color-fade-loop 2s infinite;
+  animation: color-fade-loop 2s infinite;
+
+}
+
+@-webkit-keyframes color-fade-loop {
+  0% {
+    background: cyan;
+  }
+  
+  100% {
+    background: rgb(255, 255, 255)
+  }
+}
+@keyframes color-fade-loop {
+  0% {
+    background: cyan;
+  }
+  
+  100% {
+    background: rgb(255, 255, 255)
+  }
+}
+
+
+.path-node-loop{
+  background-color: gold; 
+
+  animation: color-fade-path-loop 2s infinite;
+  -webkit-animation: color-fade-path-loop 2s infinite;
+}
+
+@keyframes color-fade-path-loop {
+  0% {
+    background: orangered;
+  }
+  
+  100% {
+    background: gold
+  }
+}
+
+@-webkit-keyframes color-fade-path-loop {
+  0% {
+    background: orangered;
+  }
+  
+  100% {
+    background: gold
+  }
+}
 
 .wall-node{
   background-color: grey;
@@ -286,6 +339,11 @@ h3 {
 
 .start-node::after{
     content: '';
+    
+    background-image: url("../images/arrow.svg");
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -298,13 +356,17 @@ h3 {
 
 .end-node::after{
     content: '';
+    background-image: url("../images/circle.svg");
+    background-size: 15px 15px;
+    background-repeat: no-repeat;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    background-color: crimson;
+    background-color: rgb(253, 93, 125);
 
 }
 

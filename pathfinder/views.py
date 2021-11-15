@@ -13,7 +13,7 @@ import sys
 def home(request):
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
-    print(request_csrf_token)
+    #print(request_csrf_token)
     result = request.POST.get('result',None)
 
     print(sys.getsizeof(result))
