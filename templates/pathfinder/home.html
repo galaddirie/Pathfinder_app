@@ -42,7 +42,7 @@
         <div class="text-start ">
             <h3 class="text-dark">Draw Tools</h3>
             <div class="tool-container">
-                <button id="add-wall" class="btn tools draw-btn text-light" >Add Walls <i class="fas fa-paint-brush"></i></button>
+                <button id="add-wall" class="btn tools active-tool draw-btn text-light" >Add Walls <i class="fas fa-paint-brush"></i></button>
         
                 <button id="remove-wall" class="btn tools draw-btn text-light">Remove Walls <i class="fas fa-eraser"></i></button>
             </div>
@@ -56,15 +56,15 @@
                     <option class="text-start" value="">Select Maze</option>
                     <option class="text-start" selected="selected" value="recursiveDiv">Recursive Division</option>
                 </select>
-                <button id="mazebtn" class="tools btn viz-btn text-light col-5" onclick="generateMaze()">Start</button>
+                <button id="mazebtn" class="tools btn viz-btn text-light col-5">Start</button>
             </div>
         </div>
         <div class="menu-item  clear-functions text-start  ">
             <h3 class="text-dark">Clear Board</h3>
             <div class="tool-container">
-                <button class="tools btn tool-btn text-light" onclick="clearWalls()">Clear Walls</button>
-                <button class="tools btn tool-btn text-light" onclick="clearVisit()">Clear Path</button>
-                <button class="tools btn tool-btn text-light" onclick="resetBoard()">Reset Board</button>
+                <button class="tools btn tool-btn text-light" id="clearWalls">Clear Walls</button>
+                <button class="tools btn tool-btn text-light" id="clearVisit">Clear Path</button>
+                <button class="tools btn tool-btn text-light" id="resetBoard">Reset Board</button>
             </div>
         </div>
         
