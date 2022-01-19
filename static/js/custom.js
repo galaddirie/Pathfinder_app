@@ -650,6 +650,7 @@ function mouseEvent(event) {
 }
 
 function onMouseDown(event) {
+
     mousedown = true
     mouseEvent(event)
 }

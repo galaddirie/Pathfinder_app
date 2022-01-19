@@ -1,135 +1,241 @@
-let fsm = { // FINATE STATE MACHINE
-    addWall: false,
-    addPoints: false,
-    dragEndpoint: false,
-    animating: false,
-    animSpeed: 2,
+
+class Cell {
+    constructor(x, y, element) {
+        this.value
+        this.x = x
+        this.y = y
+        this.element = element
+        this.prev_value
+    }
+    update(value) {
+        if (!(value == 'wall-node' && this.isEndPoint())) {
+            this.prev_value = this.value
+            this.value = value
+            this.element.classList.add(value)
+        }
+    }
+    remove(value) {
+        this.value = this.prev_value
+        this.prev_value = null
+        this.element.classList.remove(value)
+    }
+    isEndPoint() {
+        return this.value == 'start-node' || this.value == 'end-node'
+    }
+    isWall() {
+        return this.value == 'wall-node'
+    }
 
 }
-let drawType = {
-    freeDraw: true,
-    lineDraw: false,
-    spiralDraw: false,
-};
+
 
 class BoardState {
     constructor() {
-        this.cells
-        this.drawEnabled
-        this.inputEnabled
-        this.animating
-    }
-
-    getCell() {
-
+        this.moveEndPoint = false
+        this.drawEnabled = true
+        this.drawType = 'freeDraw'
+        this.inputEnabled = true
+        this.animating = false
     }
 
 }
+
+class DrawHandler {
+    constructor(board) {
+        this.board = board
+        this.tempWallList = []
+        this.initalPosition
+    }
+    freeDraw(event, cell) {
+        event.target.classList.add('wall-node')
+        cell.value = 'wall-node'
+    }
+    erase(event, cell) {
+        event.target.classList.remove('wall-node')
+    }
+
+    render(event, mousedown) {
+        // for (let i = 0; i < wallList.length; i++) {
+        //     const wall = wallList[i];
+        //     wall.classList.add('temp-wall-node')
+        // }
+    }
+}
+
+
 class BoardMoveInput {
     constructor(board) {
         this.board = board
         this.state = board.state
+        this.drawHandle = board.drawHandle
         this.mousedown = false
-        this.elementHold = null
+        this.elementHold = { cell: null, prev: null }
+
+        this.setMouseInput()
     }
 
-    nodeMoveHelper(node) {
-        node.classList.add(elementHold)
-        if (elementHold == 'start-node') {
-            start = node.id
-            //console.log(start)
-        }
-        else {
-            end = node.id
-        }
-        //fsm.animSpeed = 0
-        //gridConverter()
-        //node.classList.remove('wall-node')
+    setMouseInput() {
+        this.mouseOverListener = this.onMouseOver.bind(this)
+        this.mouseDownListener = this.onMouseDown.bind(this)
+        this.mouseUpListener = this.onMouseUp.bind(this)
+        this.mouseLeaveListener = this.onMouseLeave.bind(this)
+        this.leaveContainerListener = this.onContainerLeave.bind(this)
+        console.log(this.board.cells)
+        for (let i = 0; i < this.board.cells.length; i++) {
+            for (let j = 0; j < this.board.cells[i].length; j++) {
+                const el = this.board.cells[i][j].element;
 
+                el.addEventListener('mouseover', this.mouseOverListener)
+                el.addEventListener('mouseleave', this.mouseLeaveListener)
+                el.addEventListener('mousedown', this.mouseDownListener)
+                el.addEventListener('mouseup', this.mouseUpListener)
 
+            }
+
+        }
+        this.board.element.addEventListener('mouseleave', this.leaveContainerListener)
     }
+
+    getCell(id) {
+        let loc = id.split(',')
+        return this.board.cells[loc[0]][loc[1]]
+    }
+
     mouseEvent(event) {
         //todo change .dragpoint to just che
-        if (!this.animating && this.mousedown && !this.drawEnabled) {
-            if (event.target.classList.contains('box')) {
-                mouseEventHelper(event.target)
-            }
-
+        switch (event.type) {
+            case 'mousedown':
+                ''
+            case 'mouseup':
+                ''
+            case 'mouseover':
+                ''
         }
-    }
-
-    mouseEventHelper(node) {
-        if (!(node.classList.contains('start-node')) && !((node.classList.contains('end-node')))) {
-            if (node.classList.contains('wall-node') && !fsm.addWall) {
-                node.classList.remove('wall-node')
-            }
-            else if (this.drawEnabled) {
-                if (node.classList.contains('visited-node')) {
-                    node.classList.remove('visited-node')
-                    node.classList.add('wall-node')
-                    wallList.push(node.id)
-                } else {
-                    node.classList.add('wall-node')
-                    wallList.push(node.id)
-                }
-
-            }
+        let cell
+        if (event.target.classList.contains('box')) {
+            cell = this.getCell(event.target.id)
         }
-        if (node.classList.contains('start-node') || (node.classList.contains('end-node'))) {
-            this.drawEnabled = false
-            clearPaths()
-            if (node.classList.contains('start-node')) {
-                this.elementHold = 'start-node'
+
+        if (!this.state.animating && this.mousedown) {
+            if (this.state.moveEndPoint) {
+                //console.log(this.elementHold.cell)
+                this.board.move(this.elementHold.cell, cell)
             }
+            else if (cell.isEndPoint()) {
+                this.elementHold.cell = cell
+                this.elementHold.prev = cell.element
+                this.state.moveEndPoint = true
+            }
+
             else {
-                this.elementHold = 'end-node'
+
+                if (this.state.drawEnabled && !cell.isEndPoint() && !this.state.moveEndPoint
+                    && !cell.element.classList.contains('start-node')) {
+                    switch (this.state.drawType) {
+                        case 'freeDraw':
+                            console.log('drawing wall')
+                            this.drawHandle.freeDraw(event, cell)
+                            break
+                        default:
+                            console.log('No Draw Mode')
+                            break
+                    }
+
+                }
             }
 
-            prev = node
-
-        }
-
-        if (node.classList.contains('path-node') && (node.classList.contains('wall-node'))) {
-            //console.log('CLEAR PATHS')
-            clearPaths()
         }
     }
 
     onMouseDown(event) {
+
         this.mousedown = true
+        const x = this.getCell(event.target.id)
+        console.log(x)
         this.mouseEvent(event)
     }
 
     onMouseUp(event) {
         this.mousedown = false
-        this.state.dragEndpoint = false
+        this.state.moveEndPoint = false
     }
 
     onMouseOver(event) {
-        mouseEvent(event)
         if (this.mousedown) {
-            if (this.state.dragEndpoint && event.target.classList.contains('box')) {
-
-
-                nodeMoveHelper(event.target)
-
-            }
+            this.mouseEvent(event)
         }
     }
 
     onMouseLeave(event) {
-        if (this.state.dragEndpoint) {
-            prev = event.target
-            event.target.classList.remove(elementHold)
+        if (this.state.moveEndPoint) {
+            this.elementHold.cell = this.getCell(event.target.id)
+            this.elementHold.prev = event.target
+            //event.target.classList.remove(this.elementHold.cell.value)
         }
-        //console.log(prev)
 
+    }
+
+    onContainerLeave(event) {
+        this.mousedown = false
+        this.state.moveEndPoint = false
+        // if (this.elementHold.cell) {
+        //     this.elementHold.prev.classList.add(this.elementHold.cell.value)
+        // }
     }
 }
 
 
 class Board {
-    constructor() {
+    constructor(height, width) {
+        this.state = new BoardState()
+
+        this.cells = []
+        this.element = document.getElementById('grid');
+        for (var i = 0; i < height; i++) {
+            var row = document.createElement('div');
+            row.className = "row-container row";
+            row.id = "row" + i;
+            this.cells.push([])
+            for (var j = 0; j < width; j++) {
+                var box = document.createElement('div');
+                box.className = 'box box-node-container';
+                box.id = i + ',' + j;
+                row.appendChild(box);
+                const cell = new Cell(i, j, box)
+                this.cells[i].push(cell)
+            }
+            this.element.appendChild(row);
+        }
+        this.initializeBoard()
+        this.drawHandle = new DrawHandler(this)
+        this.mouseInput = new BoardMoveInput(this)
+
+    }
+    initializeBoard() {
+        // let walls = document.querySelector('.wall-node')
+        // walls.walls.forEach(element => {
+        //     element.classList.remove('wall-node')
+        // });
+        this.start = this.cells[11][12]
+        this.start.update('start-node')
+
+        this.end = this.cells[11][37]
+        this.end.update('end-node')
+    }
+
+    move(fromNode, toNode) {
+        if (toNode) {
+            toNode.update(fromNode.value)
+            fromNode.remove(toNode.value)
+            switch (toNode.value) {
+                case 'start-node':
+                    this.start = toNode
+                    break
+                case 'end-node':
+            }       this.end = toNode
+        }
+
+
     }
 
     draw() {
@@ -139,3 +245,20 @@ class Board {
     }
 }
 
+
+
+
+function listeners() {
+    //EVENT LISTENERS
+    //window.addEventListener('resize', onWindowResize, false);
+    window.addEventListener('load', onLoad,);
+
+};
+
+function onLoad() {
+    let board = new Board(25, 49),
+        pathfinder = new Pathfinder(board)
+}
+
+
+listeners()

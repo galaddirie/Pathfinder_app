@@ -193,6 +193,14 @@ class Graph:
         self.shortest(target)
         return self.path
 
+    def dispatch(self, algo, nodes):
+        dispatcher = {
+            'astar': lambda nodes: self.a_star(nodes[0], nodes[1]),
+            'dijkstra': lambda nodes: self.dijkstra(nodes[0], nodes[1]),
+            'greedyBfs': lambda nodes: self.greedy_bfs(nodes[0], nodes[1]),
+        }
+        return dispatcher[algo](nodes)
+
 
 if __name__ == "__main__":
 

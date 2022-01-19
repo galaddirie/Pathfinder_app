@@ -3,21 +3,11 @@ import typing
 import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
-import pathfinder
 from pathfinder.algorithms.Nodes import Node
 from pathfinder.algorithms.dijkstra import Graph, PrioritizedItem
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 # Create your views here.
 import sys
-
-
-def dispatch(algo, g, nodes):
-    dispatcher = {
-        'astar': lambda nodes: g.a_star(nodes[0], nodes[1]),
-        'dijkstra': lambda nodes: g.dijkstra(nodes[0], nodes[1]),
-        'greedyBfs': lambda nodes: g.greedy_bfs(nodes[0], nodes[1]),
-    }
-    return dispatcher[algo](nodes)
 
 
 @ensure_csrf_cookie
@@ -26,7 +16,6 @@ def home(request):
     request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
     # print(request_csrf_token)
     result = request.POST.get('result', None)
-
     print(sys.getsizeof(result))
     start = request.POST.get('start', None)
     end = request.POST.get('end', None)
@@ -42,7 +31,7 @@ def home(request):
         start_node = g.nodes[start_y][start_x]
         end_node = g.nodes[end_y][end_x]
 
-        visited = dispatch(algo, g, [start_node, end_node])
+        visited = g.dispatch(algo, [start_node, end_node])
 
         path = g.get_paths(end_node)
 
