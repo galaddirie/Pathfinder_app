@@ -390,7 +390,6 @@ function viz(array, array2, className, animEnd, animSpeedScaler) {
 
 let wallAnimationStack = []
 function recursiveDivision() {
-    console.log('function call')
     clearBoard()
     wallAnimationStack = []
     width = grid[1].length
