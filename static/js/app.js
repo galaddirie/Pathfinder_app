@@ -41,7 +41,6 @@ class PathfinderInterface {
         }
         this.board.clearVisited()
         if (!this.board.state.animating) {
-            console.log('test')
             for (let i = 0; i < this.board.cells.length; i++) {
                 gridData.push([])
                 for (let j = 0; j < this.board.cells[i].length; j++) {
@@ -119,11 +118,6 @@ class PathfinderInterface {
             },
 
             success: (data) => {
-                console.log('sent data to server')
-                // const visited = data['visited'],
-                //     path = data['path'].reverse()
-                //pathList = path
-
                 this.visualizePathfinder(data)
 
             },
@@ -196,7 +190,6 @@ class MazeInterface {
     }
 
     recursiveDivision() {
-        console.log('function call')
         this.board.clearWalls()
         this.board.clearVisited()
         this.wallAnimationStack = []
