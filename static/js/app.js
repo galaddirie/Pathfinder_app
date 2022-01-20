@@ -133,8 +133,9 @@ class PathfinderInterface {
 
     visualizePathfinder(data) {
         const visited = data['visited'],
-            path = data['path'].reverse(),
-            pathList = path
+            path = data['path'].reverse()
+        console.log(path.length)
+        //pathList = path
         this.vizHelper(visited, path, 'visited-node', false, 1)
     }
 
@@ -183,8 +184,8 @@ class MazeInterface {
                 this.mazebtn.element.innerText = "Select Algorithim !"
                 setTimeout(function (that) {
                     that.mazebtn.element.innerText = 'Start'
-                    that.mazebtn.enable
-                }, 1500)
+                    that.mazebtn.enable()
+                }, 1500, this)
             }
         }
     }

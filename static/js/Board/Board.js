@@ -139,15 +139,15 @@ export class Board {
 
     clearVisited() {
         const visited = this.element.querySelectorAll('.visited-node')
-        //paths = this.element.querySelectorAll('.path-node')
+        const paths = this.element.querySelectorAll('.path-node')
 
         visited.forEach(node => {
             node.classList.remove('visited-node')
+
+        });
+        paths.forEach(node => {
             node.classList.remove('path-node')
         });
-        // paths.forEach(node => {
-
-        // });
 
 
     }
@@ -155,11 +155,7 @@ export class Board {
     clearAll() {
         const all = this.element.querySelectorAll('.box')
         all.forEach(node => {
-            node.classList.remove('path-node')
-            node.classList.remove('visited-node')
-            node.classList.remove('wall-node')
-            node.classList.remove('start-node')
-            node.classList.remove('end-node')
+            node.classList = 'box box-node-container'
         });
 
     }

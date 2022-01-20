@@ -4,14 +4,14 @@ import json
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from pathfinder.algorithms.Nodes import Node
-from pathfinder.algorithms.dijkstra import Graph, PrioritizedItem
+from pathfinder.algorithms.PathFinder import Graph, PrioritizedItem
 from django.views.decorators.csrf import csrf_exempt, csrf_protect, ensure_csrf_cookie
 # Create your views here.
 import sys
 
 
 @ensure_csrf_cookie
-def home(request):
+def home(request) -> HttpResponse:
     is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
     request_csrf_token = request.META.get('HTTP_X_CSRFTOKEN', '')
     # print(request_csrf_token)
@@ -50,6 +50,3 @@ def home(request):
         return JsonResponse({'visited': acc, 'path': acc2})
     return render(request, 'pathfinder/home.html', context={'data': result})
 
-
-def test(request):
-    return HttpResponse('hello')
