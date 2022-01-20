@@ -1,5 +1,4 @@
 from dataclasses import dataclass, field
-from typing import Any
 
 
 @dataclass(order=True)
@@ -14,7 +13,7 @@ class PrioritizedItem:
 
 class Node:
 
-    def __init__(self, value=None, x=None, y=None) -> None:
+    def __init__(self, value: str = None, x: int = None, y: int = None) -> None:
         self.x = x  # col index
         self.y = y  # row index
         self.value = value
@@ -23,10 +22,10 @@ class Node:
         self.f = None
         self.previous = None
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"Node({self.x},{self.y})"
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"Node({self.x},{self.y})"
 
     # def __ge__(self):
@@ -38,11 +37,11 @@ class Node:
     # def __eq__(self, other: object) -> bool:
     #     return self.x == other.x and self.y == other.y
 
-    def is_wall(self):
+    def is_wall(self) -> bool:
         return self.value == 'W'
 
-    def set_prev(self, node):
+    def set_prev(self, node: object) -> None:
         self.previous = node
 
-    def id(self):
+    def id(self) -> str:
         return str(self.y) + ',' + str(self.x)

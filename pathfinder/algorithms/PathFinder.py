@@ -1,5 +1,5 @@
+from typing import List, Callable
 from heapq import heapify, heappush, heappop
-
 from pathfinder.algorithms.Nodes import Node, PrioritizedItem
 
 import random
@@ -8,7 +8,7 @@ import random
 class Graph:
     # TODO remove for loop from self.nodes initilization and mix it with the second for loop
 
-    def __init__(self, grid):
+    def __init__(self, grid: List[List]) -> None:
         """
         precondition: grid will contain a uniform amount of nodes per row
         """
@@ -28,7 +28,7 @@ class Graph:
                 node.value = grid[row][col]
                 node.x = col
                 node.y = row
-                self.edges[node] = {}
+                self.edges[node] = []
                 weight = 1
                 if not node.is_wall():
 
@@ -60,42 +60,61 @@ class Graph:
                         neighbor.y = row-1
                         self.add_edge(node, neighbor, weight)
 
-    def add_edge(self, u, v, weight):
-        # this new set up the edges dict will have the same interface as the adjacency map
-        # i.e edges[u][v] will still out put a weight if the nodes exist in memory
-        # space complexity goes from O(n^2) to O(n*e) or 4n-(2*width + 2*height)(all nodes have 4 edges, except grid borders in our use case)
+    def add_edge(self, u: Node, v: Node, weight: int) -> None:
 
         if not v.is_wall():
             if u not in self.edges:
-                self.edges[u] = {v: weight}
+                self.edges[u] = [(v, weight)]
             else:
-                self.edges[u][v] = weight
+                self.edges[u].append((v, weight))
 
             if v not in self.edges:
-                self.edges[v] = {u: weight}
+                self.edges[v] = [(u, weight)]
             else:
-                self.edges[v][u] = weight
+                self.edges[v].append((u, weight))
 
-    @staticmethod
+        # if not v.is_wall():
+        #     if u not in self.edges:
+        #         self.edges[u] = {v: weight}
+        #     else:
+        #         self.edges[u][v] = weight
+        #     if v not in self.edges:
+        #         self.edges[v] = {u: weight}
+        #     else:
+        #         self.edges[v][u] = weight
+
+    @ staticmethod
     def heuristic(curr: Node, goal: Node, D: int = 1) -> int:
+        """
+        Returns an admissible heuristic in manhattan distance 
+        """
         return D*(abs(curr.x-goal.x) + abs(curr.y - goal.y))
 
-    @staticmethod
-    def dijkstra_f_cost(g, h):
+    @ staticmethod
+    def dijkstra_f_cost(g: int, h: int) -> int:
+        """
+        Returns F cost when heuristic is 0
+        """
         f = g
         return f
 
-    @staticmethod
-    def greedy_f_cost(g, h):
+    @ staticmethod
+    def greedy_f_cost(g: int, h: int) -> int:
+        """
+        Returns f cost when g cost is 0
+        """
         f = h
         return f
 
-    @staticmethod
-    def astar_f_cost(g, h):
+    @ staticmethod
+    def astar_f_cost(g: int, h: int) -> int:
+        """
+        Returns f cost with an admissible heuristic combined with g cost
+        """
         f = g+h
         return f
 
-    def best_first_search(self, start_vertex, end_vertex, f):
+    def pathfinder(self, start_vertex: Node, end_vertex: Node, f: Callable[[int, int], int]) -> List:
         distances = {self.nodes[i][j]: float('inf') for i in range(len(self.nodes))
                      for j in range(len(self.nodes[i]))}
         distances[start_vertex] = 0  # f cost
@@ -115,12 +134,18 @@ class Graph:
                 self.visited.append(curr_vertex)
 
                 for neighbor in self.edges[curr_vertex]:
-                    weight = self.edges[curr_vertex][neighbor]
-                    heuristic = self.heuristic(curr_vertex, end_vertex, weight)
+                    weight, neighbor = neighbor[1], neighbor[0]
+                    # weight = self.edges[curr_vertex][neighbor[1]]
+                    # neighbor = neighbor[0]
+
                     g_cost = distances[curr_vertex] + weight
                     old_g_cost = distances[neighbor]
 
+                    heuristic = self.heuristic(curr_vertex, end_vertex, weight)
+                    tie_breaker = 1/self.v
+                    heuristic *= (1.0 + tie_breaker)
                     f_cost = f(g_cost, heuristic)
+
                     # if old_g_cost < g_cost and neighbor in self.visited:
                     #     index = self.visited.index(neighbor)
                     #     self.visited[index] = curr_vertex
@@ -135,7 +160,6 @@ class Graph:
                                 # print(node, old_g_cost, distances[node])
                                 continue
                     else:
-
                         if g_cost < old_g_cost:
                             heappush(pq, PrioritizedItem(f_cost, neighbor))
                             distances[neighbor] = g_cost
@@ -143,8 +167,8 @@ class Graph:
 
         return self.visited
 
-    def dijkstra(self, start_vertex, end_vertex):
-        self.best_first_search(start_vertex, end_vertex, self.dijkstra_f_cost)
+    def dijkstra(self, start_vertex: Node, end_vertex: Node) -> List:
+        self.pathfinder(start_vertex, end_vertex, self.dijkstra_f_cost)
         return self.visited
         """
             # TODO handle case where there is no start and end ndoe, or case where they overlap each other
@@ -173,25 +197,33 @@ class Graph:
             return self.visited
         """
 
-    def a_star(self, start_vertex, end_vertex):
-        self.best_first_search(start_vertex, end_vertex, self.astar_f_cost)
+    def a_star(self, start_vertex: Node, end_vertex: Node) -> List:
+        self.pathfinder(start_vertex, end_vertex, self.astar_f_cost)
         return self.visited
 
-    def greedy_bfs(self, start_vertex, end_vertex):
-        self.best_first_search(start_vertex, end_vertex, self.greedy_f_cost)
+    def greedy_bfs(self, start_vertex: Node, end_vertex: Node) -> List:
+        self.pathfinder(start_vertex, end_vertex, self.greedy_f_cost)
         return self.visited
 
-    def shortest(self, node):
+    def shortest(self, node: Node) -> None:
         if node.previous:
             self.path.append(node.previous)
             self.shortest(node.previous)
 
         return
 
-    def get_paths(self, target):
+    def get_paths(self, target: Node) -> List:
         self.path.append(target)
         self.shortest(target)
         return self.path
+
+    def dispatch(self, algo: str, nodes: List[Node]) -> List:
+        dispatcher = {
+            'astar': lambda nodes: self.a_star(nodes[0], nodes[1]),
+            'dijkstra': lambda nodes: self.dijkstra(nodes[0], nodes[1]),
+            'greedyBfs': lambda nodes: self.greedy_bfs(nodes[0], nodes[1]),
+        }
+        return dispatcher[algo](nodes)
 
 
 if __name__ == "__main__":
