@@ -1,7 +1,7 @@
 # pathfinder_app
-# chess
+A pathfinding algorithim visualizer 
+![image](https://user-images.githubusercontent.com/70884733/152391543-fd9da506-fb57-4443-abe6-649904c42ef8.png)
 
-A real-time multiplayer chess game web application built with Django and Django Channels
 
 
 
@@ -14,3 +14,7 @@ To install this repository on your machine
 4. navigate to the repository and install all the dependencies in requirements.txt: `$ pip install -r requirements.txt`
 
 8. Run the application: `$ python manage.py runserver`
+
+
+https://user-images.githubusercontent.com/70884733/152391553-21b496c7-9bd3-4a3f-a353-b6900e77b388.mp4
+
