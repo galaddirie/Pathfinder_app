@@ -1,7 +1,8 @@
 # pathfinder_app
 A pathfinding algorithim visualizer
 
-![image](https://user-images.githubusercontent.com/70884733/152391651-e44c7647-6a6e-495d-a36a-2dbe70ecab18.gif)
+![image](https://user-images.githubusercontent.com/70884733/152391651-e44c7647-6a6e-495d-a36a-2dbe70ecab18.gif)![ezgif-5-fcd8d9b6b9](https://user-images.githubusercontent.com/70884733/152392367-5a5981d9-8d21-420a-8c24-430e33647725.gif)
+
 
 
 
