@@ -1,6 +1,6 @@
 # pathfinder_app
 A pathfinding algorithim visualizer 
-![image](https://user-images.githubusercontent.com/70884733/152391543-fd9da506-fb57-4443-abe6-649904c42ef8.png)
+![ezgif-5-859515e7d2](https://user-images.githubusercontent.com/70884733/152391651-e44c7647-6a6e-495d-a36a-2dbe70ecab18.gif
 
 
 
@@ -15,6 +15,4 @@ To install this repository on your machine
 
 8. Run the application: `$ python manage.py runserver`
 
-
-https://user-images.githubusercontent.com/70884733/152391553-21b496c7-9bd3-4a3f-a353-b6900e77b388.mp4
 
