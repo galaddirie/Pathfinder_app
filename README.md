@@ -1,5 +1,6 @@
 # pathfinder_app
-A pathfinding algorithim visualizer 
+A pathfinding algorithim visualizer
+
 ![image](https://user-images.githubusercontent.com/70884733/152391651-e44c7647-6a6e-495d-a36a-2dbe70ecab18.gif)
 
 
