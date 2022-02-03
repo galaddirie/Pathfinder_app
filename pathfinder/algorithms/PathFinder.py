@@ -88,7 +88,7 @@ class Graph:
         """
         Returns an admissible heuristic in manhattan distance 
         """
-        return D*(abs(curr.x-goal.x) + abs(curr.y - goal.y))
+        return .9999*(abs(curr.x-goal.x) + abs(curr.y - goal.y))
 
     @ staticmethod
     def dijkstra_f_cost(g: int, h: int) -> int:
@@ -143,7 +143,7 @@ class Graph:
 
                     heuristic = self.heuristic(curr_vertex, end_vertex, weight)
                     tie_breaker = 1/self.v
-                    heuristic *= (1.0 + tie_breaker)
+                    heuristic *= (1.0)
                     f_cost = f(g_cost, heuristic)
 
                     # if old_g_cost < g_cost and neighbor in self.visited:
