@@ -7,7 +7,7 @@ A pathfinding algorithim visualizer
 
 
 
-## How to install Repo
+## How to Install Repo
 
 To install this repository on your machine
 1. Clone this repository: `$ git clone https://github.com/galaddirie/pathfinder_app.git` 
