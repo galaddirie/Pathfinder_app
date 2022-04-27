@@ -18,8 +18,7 @@ class AlgorithimTestCase(TestCase):
             [ 0 ,'W','W','W','W', 0 ],
             [ 0 , 0 , 0 , 0 , 0 ,'F'],
         ]
-        #Shortest Path 11
-        
+        #Shortest Path 11   
         self.g1 = Graph(grid1)
         self.s1 = self.g1.nodes[4][1]
         self.e1 = self.g1.nodes[8][5]
@@ -53,6 +52,23 @@ class AlgorithimTestCase(TestCase):
         self.g3 = Graph(grid3)
         self.s3 = self.g3.nodes[4][0]
         self.e3 = self.g3.nodes[4][-1]
+        
+    #############################################################
+    def test_astar_concave_obstcale(self) -> None:
+        visited = self.g1.dispatch('astar',[self.s1, self.e1])
+        path = self.g1.get_paths(self.e1)
+        self.assertEqual(len(path), 11)
+
+    def test_astar_no_obstcale(self)->None:
+        visited = self.g2.dispatch('astar',[self.s2, self.e2])
+        path = self.g2.get_paths(self.e2)
+        self.assertEqual(len(path), 8)
+    
+    def test_astar_large_concave_obstacles(self) -> None:
+        visited = self.g3.dispatch('astar',[self.s3, self.e3])
+        path = self.g3.get_paths(self.e3)
+        self.assertEqual(len(path), 32)
+    
     #############################################################
     def test_dijkstra_concave_obstcale(self) -> None:
         visited = self.g1.dispatch('dijkstra',[self.s1, self.e1])
