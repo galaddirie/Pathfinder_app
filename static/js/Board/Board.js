@@ -36,6 +36,8 @@ class Cell {
 
 export class Board {
     constructor(height, width) {
+        this.width = width
+        this.height = height
         this.state = new BoardState()
         this.cells = []
         this.element = document.getElementById('grid');
@@ -66,10 +68,12 @@ export class Board {
         // walls.walls.forEach(element => {
         //     element.classList.remove('wall-node')
         // });
-        this.start = this.cells[11][12]
+        let y = Math.floor(this.height / 2),
+            x = Math.floor(this.width * .3)
+        this.start = this.cells[y][x]
         this.start.update('start-node')
 
-        this.end = this.cells[11][37]
+        this.end = this.cells[y][this.width - x - 1]
         this.end.update('end-node')
     }
 
